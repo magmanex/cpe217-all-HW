@@ -26,7 +26,6 @@ public class Heap {
 
     public boolean isEmpty() { return heapSize == 0; }
 
-    public void makeEmpty() { heapSize = 0; }
 
     public Node top(){
         if (isEmpty())
@@ -40,13 +39,21 @@ public class Heap {
         node.timestamp = timeCounter; // FIX THIS
         timeCounter++;
         // Do something
-        if (heapSize == arr.length-1)
-            enlargeArray(arr.length*2+1);
         // Push new node at the end then sift (percolate) up
-        int hole = ++heapSize; // Percolate up
-        for (; hole > 1 && node.compare(arr[hole/2]) ; hole /= 2)
-            arr[hole] = arr[hole/2];
-            arr[hole] = node;
+        arr[back] = node;
+        int current = this.back;
+        int parent;
+        for (;current > 1;) {
+            parent = current / 2;
+            if (arr[parent].compare(arr[current])) {
+                break;
+            } else {
+                swap(current, parent);
+                current = parent;
+
+            }
+        }
+        back++;
     }
     public Node pop(){
         // DO SOMETHING
@@ -55,7 +62,8 @@ public class Heap {
         // 1. mark the root for return
         Node minItem = top();
         // 2. Replace the last node with the root
-        arr[1] = arr[heapSize--];
+        arr[1] = arr[back];
+        back--;
         // 3. Sift (percolate) down
         percolateDown(1);
         return minItem; // You may have to fix this line
@@ -84,9 +92,9 @@ public class Heap {
         Node tmp = arr[hole];
         for (; hole * 2 <= heapSize; hole = child) {
             child = hole * 2;
-            if (child!=heapSize && arr[child+1].compare(arr[child]))
+            if (arr[child].compare(arr[child+1]))
                 child++; 	// smaller child
-            if (arr[child].compare(tmp) )
+            if (tmp.compare(arr[child]) )
                 arr[hole] = arr[child];
             else
                 break;

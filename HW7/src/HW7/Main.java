@@ -41,8 +41,8 @@ public class Main {
 
         market.showStockOwnership();
         // Investors spent half of their money to randomly buy stocks from companies (IPO).
-        market.simulateIPO(); //
-        //market.loadSavedIPO(); // load simulatedIPO
+        //market.simulateIPO(); //
+        market.loadSavedIPO(); // load simulatedIPO
         market.showStockOwnership();
 
         market.portfolio("Darunphop");
