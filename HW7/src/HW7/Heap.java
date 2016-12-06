@@ -23,25 +23,42 @@ public class Heap {
         this.isMinHeap = isMinHeap;
         timeCounter = 0;
     }
+
+    public boolean isEmpty() { return heapSize == 0; }
+
+    public void makeEmpty() { heapSize = 0; }
+
     public Node top(){
-        return null; // FIX TH IS
+        if (isEmpty())
+            throw new RuntimeException("Prioity queue is empty");
+        return arr[1];
     }
+
 
     public void push(Node node){
         // time stamp
-        node.timestamp = 0; // FIX THIS
-
+        node.timestamp = timeCounter; // FIX THIS
+        timeCounter++;
         // Do something
+        if (heapSize == arr.length-1)
+            enlargeArray(arr.length*2+1);
         // Push new node at the end then sift (percolate) up
+        int hole = ++heapSize; // Percolate up
+        for (; hole > 1 && node.compare(arr[hole/2]) ; hole /= 2)
+            arr[hole] = arr[hole/2];
+            arr[hole] = node;
     }
     public Node pop(){
         // DO SOMETHING
         if(arr[1]==null)
             throw new RuntimeException("Prioity queue is empty");
         // 1. mark the root for return
+        Node minItem = top();
         // 2. Replace the last node with the root
+        arr[1] = arr[heapSize--];
         // 3. Sift (percolate) down
-        return arr[1]; // You may have to fix this line
+        percolateDown(1);
+        return minItem; // You may have to fix this line
     }
 
     // Optional: If you do not know what this function does, you do not have to use it
@@ -61,5 +78,28 @@ public class Heap {
         }
         System.out.println("]");
     }
+
+    private void percolateDown(int hole) { // start percolating at hole
+        int child;
+        Node tmp = arr[hole];
+        for (; hole * 2 <= heapSize; hole = child) {
+            child = hole * 2;
+            if (child!=heapSize && arr[child+1].compare(arr[child]))
+                child++; 	// smaller child
+            if (arr[child].compare(tmp) )
+                arr[hole] = arr[child];
+            else
+                break;
+        }
+        arr[hole] = tmp;
+    }
+
+    private void enlargeArray(int newSize) {
+        Node[] old = arr;
+        arr = (Node []) new Comparable[newSize];
+        for (int i = 0; i < old.length; i++)
+            arr[i] = old[i];
+    }
+
 
 }
