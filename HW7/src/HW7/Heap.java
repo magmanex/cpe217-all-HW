@@ -36,45 +36,35 @@ public class Heap {
 
     public void push(Node node){
         // time stamp
-        node.timestamp = back; // FIX THIS
-        timeCounter++;
-        // Do something
-        // Push new node at the end then sift (percolate) up
+        node.timestamp = timeCounter++;
+
+        int posback = back;
         arr[back] = node;
-        back++;
-        if(isMinHeap){
-            for(;arr[(int) node.timestamp/2] != null && arr[(int) node.timestamp/2].price > node.price;){
-                long tmp = node.timestamp;
-                swap((int) tmp,(int) tmp/2);
-                arr[(int) tmp].timestamp = tmp;
-                node.timestamp = (int) tmp/2;
-            }
-        }else{
-            for(;arr[(int) node.timestamp/2] != null && arr[(int) node.timestamp/2].price < node.price;){
-                long tmp = node.timestamp;
-                swap((int) tmp,(int) tmp/2);
-                arr[(int) tmp].timestamp = tmp;
-                node.timestamp = (int) tmp/2;
-            }
+        while(posback > 1 && arr[posback].compare(arr[posback/2]))// do percolate up until found collect position
+        {
+            swap(posback, posback/=2);
         }
+        back++;
     }
     public Node pop(){
-        // DO SOMETHING
         if(back == 1 ) return null;
-        else{
-            // 1. mark the root for return
-            Node minTerm = top();
-            // 2. Replace the last node with the root
-            back--;
-            arr[1] = arr[back-1];
-            if (arr[1] != null){
-
-                arr[1].timestamp = 1;
-                // 3. Sift (percolate) down
-                percolateDown(1);
-            }
-            return minTerm; // You may have to fix this line
+        // 1. mark the root for return
+        Node Returned = top();
+        // 2. Replace the last node with the root
+        if(back == 2) // if has only 1 buyer
+        {
+            arr[--back] = null;
         }
+        else
+        {
+            arr[1] = arr[--back];
+        }
+
+        // 3. Sift (percolate) down
+        percolateDown(1);
+
+
+        return Returned;
     }
 
     // Optional: If you do not know what this function does, you do not have to use it
@@ -97,10 +87,31 @@ public class Heap {
 
     private void percolateDown(int hole) { // start percolating at hole
 
-        while (arr[hole * 2] != null) {
-            swap(hole, 2 * hole);
-            hole *= 2;
-            arr[hole].timestamp = hole;
+        while(hole <= back-1)  //do until last position
+        {
+            int Tmp;
+            if(hole*2 <= back-1 && arr[hole*2] != null) //check 1st child
+            {
+                Tmp = hole*2;
+            }
+            else  if(hole*2+1 <= back-1 && arr[hole*2+1] != null) //check 2nd child
+            {
+                if(arr[hole*2].compare(arr[hole*2+1]))
+                {
+                    Tmp = hole*2;
+                }
+                else Tmp = hole*2+1;
+            }
+            else
+                break;
+
+            if(arr[Tmp].compare(arr[hole]))
+            {
+                swap(Tmp, hole);
+                hole = Tmp;
+            }
+            else
+                break;
         }
     }
 

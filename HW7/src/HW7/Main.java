@@ -70,7 +70,6 @@ public class Main {
         
         market.submitBuyOrder("Supakarn", "KBANK", 1, 85);
         market.quote("KBANK");
-
         market.submitBuyOrder("Tanin", "KBANK", 3, 90);
         market.quote("KBANK");
         market.submitBuyOrder("Theerapat", "KBANK", 2, 100);
@@ -81,12 +80,12 @@ public class Main {
 
         market.submitSellOrder("Uttakran", "KBANK", 2, 150);
         market.quote("KBANK");
-        
+
         market.submitSellOrder("Uttakran", "KBANK", 6, 85);
         
         //market.portfolio("Uttakran");
         
-        market.showStockOwnership();
+       // market.showStockOwnership();
 
         market.submitSellOrder("Darunphop", "PTT", 3, 350);
         market.submitSellOrder("Darunphop", "PTT", 3, 360);
@@ -121,7 +120,7 @@ public class Main {
         market.quote("PTT");
         market.showStockOwnership();
         
-        //market.portfolio("Aunnop");
+        market.portfolio("Aunnop");
         
         market.submitBuyOrder("Darunphop", "PTT", 20, 150);
         market.submitBuyOrder("Darunphop", "PTT", 20, 100);
