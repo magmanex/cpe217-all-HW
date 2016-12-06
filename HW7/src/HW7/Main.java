@@ -59,10 +59,10 @@ public class Main {
         market.submitBuyOrder("Uttakran", "SCB", 6, 250);
         market.submitBuyOrder("Potsawat", "SCB", 6, 250);
         
-        //market.portfolio("Uttakran");
-        //market.portfolio("Potsawat");
-        //market.portfolio("Pimukthee");
-        //market.portfolio("Supakarn");
+        market.portfolio("Uttakran");
+        market.portfolio("Potsawat");
+        market.portfolio("Pimukthee");
+        market.portfolio("Supakarn");
         
         market.quote("KBANK");
         market.submitBuyOrder("Suttawee", "KBANK", 2, 90);
@@ -84,7 +84,7 @@ public class Main {
         
         market.submitSellOrder("Uttakran", "KBANK", 6, 85);
         
-        market.portfolio("Uttakran");
+        //market.portfolio("Uttakran");
         
         market.showStockOwnership();
 
@@ -121,7 +121,7 @@ public class Main {
         market.quote("PTT");
         market.showStockOwnership();
         
-        market.portfolio("Aunnop");
+        //market.portfolio("Aunnop");
         
         market.submitBuyOrder("Darunphop", "PTT", 20, 150);
         market.submitBuyOrder("Darunphop", "PTT", 20, 100);

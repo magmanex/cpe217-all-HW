@@ -29,44 +29,52 @@ public class Heap {
 
     public Node top(){
         if (isEmpty())
-            throw new RuntimeException("Prioity queue is empty");
+            return null;
         return arr[1];
     }
 
 
     public void push(Node node){
         // time stamp
-        node.timestamp = timeCounter; // FIX THIS
+        node.timestamp = back; // FIX THIS
         timeCounter++;
         // Do something
         // Push new node at the end then sift (percolate) up
         arr[back] = node;
-        int current = this.back;
-        int parent;
-        for (;current > 1;) {
-            parent = current / 2;
-            if (arr[parent].compare(arr[current])) {
-                break;
-            } else {
-                swap(current, parent);
-                current = parent;
-
+        back++;
+        if(isMinHeap){
+            for(;arr[(int) node.timestamp/2] != null && arr[(int) node.timestamp/2].price > node.price;){
+                long tmp = node.timestamp;
+                swap((int) tmp,(int) tmp/2);
+                arr[(int) tmp].timestamp = tmp;
+                node.timestamp = (int) tmp/2;
+            }
+        }else{
+            for(;arr[(int) node.timestamp/2] != null && arr[(int) node.timestamp/2].price < node.price;){
+                long tmp = node.timestamp;
+                swap((int) tmp,(int) tmp/2);
+                arr[(int) tmp].timestamp = tmp;
+                node.timestamp = (int) tmp/2;
             }
         }
-        back++;
     }
     public Node pop(){
         // DO SOMETHING
-        if(arr[1]==null)
-            throw new RuntimeException("Prioity queue is empty");
-        // 1. mark the root for return
-        Node minItem = top();
-        // 2. Replace the last node with the root
-        arr[1] = arr[back];
-        back--;
-        // 3. Sift (percolate) down
-        percolateDown(1);
-        return minItem; // You may have to fix this line
+        if(back == 1 ) return null;
+        else{
+            // 1. mark the root for return
+            Node minTerm = top();
+            // 2. Replace the last node with the root
+            back--;
+            arr[1] = arr[back-1];
+            if (arr[1] != null){
+
+                arr[1].timestamp = 1;
+                // 3. Sift (percolate) down
+                percolateDown(1);
+            }
+            return minTerm; // You may have to fix this line
+        }
     }
 
     // Optional: If you do not know what this function does, you do not have to use it
@@ -88,25 +96,12 @@ public class Heap {
     }
 
     private void percolateDown(int hole) { // start percolating at hole
-        int child;
-        Node tmp = arr[hole];
-        for (; hole * 2 <= heapSize; hole = child) {
-            child = hole * 2;
-            if (arr[child].compare(arr[child+1]))
-                child++; 	// smaller child
-            if (tmp.compare(arr[child]) )
-                arr[hole] = arr[child];
-            else
-                break;
-        }
-        arr[hole] = tmp;
-    }
 
-    private void enlargeArray(int newSize) {
-        Node[] old = arr;
-        arr = (Node []) new Comparable[newSize];
-        for (int i = 0; i < old.length; i++)
-            arr[i] = old[i];
+        while (arr[hole * 2] != null) {
+            swap(hole, 2 * hole);
+            hole *= 2;
+            arr[hole].timestamp = hole;
+        }
     }
 
 
