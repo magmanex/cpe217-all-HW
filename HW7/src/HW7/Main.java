@@ -50,7 +50,7 @@ public class Main {
 
 
         // To uncomment below, you need to implement Heap
-        /*
+
         
         market.submitSellOrder("Pimukthee", "SCB", 5, 200);
         market.submitSellOrder("Supakarn", "SCB", 10, 180);
@@ -135,7 +135,7 @@ public class Main {
         market.quote("PTT");
         
         market.portfolio("Aunnop");
-        */
+
     }
 
 }
