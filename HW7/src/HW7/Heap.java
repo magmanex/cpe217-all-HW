@@ -63,7 +63,6 @@ public class Heap {
         // 3. Sift (percolate) down
         percolateDown(1);
 
-
         return Returned;
     }
 
